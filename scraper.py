@@ -7,7 +7,7 @@ legally to obtain football news headlines
 '''
 
 
-def scrape(sql=False):
+def scrape():
 
     # Get request and html parser
     URL = 'https://www.footballnews.net/'
@@ -29,23 +29,29 @@ def scrape(sql=False):
         k = source.text.strip().replace("-", '')
         sources.append(' '.join(k.split()))
 
+    return links, sources
+
     # Combines the two lists and makes a
     # hashmap with the combined lists
-    combined = zip(links, sources)
-    url_final = {}
-    for i, x in enumerate(combined):
-        url_final[i] = x
+    # combined = zip(links, sources)
+    # url_final = {}
+    # for i, x in enumerate(combined):
+    #     url_final[i] = x
 
     # If this is for my database I will call scrape()
     # with True as the argument which will convert and
     # it will return the two lists for proper SQL entry
     # otherwise it will dump the hashmap in json fileform
-    if sql == True:
-        return links, sources
 
-    file_data = include.json.dumps(url_final)
-    with open('jsons/data.json', 'w') as file:
-        include.json.dump(file_data, file)
+    # file_data = include.json.dumps(url_final)
+    # with open('jsons/data.json', 'w') as file:
+    #     include.json.dump(file_data, file)
+
+    # changed my mind, this will just return the two lists
+    # to push to sql. Everything else can call and format
+    # off of that this means that I no longer need to worry
+    # about dumping into JSON or making a hashmap
 
 
-scrape(True)
+# print(scrape())
+# testing stuff lole
