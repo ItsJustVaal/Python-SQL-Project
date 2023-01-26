@@ -1,5 +1,5 @@
 import include
-
+# this file is just a couple functions to clear the tables so I dont have to keep typing everything out becacuse im lazy
 
 def create_server_connection():
     try:
