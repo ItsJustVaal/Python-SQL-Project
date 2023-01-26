@@ -9,8 +9,11 @@ URL = 'https://www.footballnews.net/'
 
 
 def scrape():
-    blacklist = ['thesun', 'thescottishsun',
-                 'thedailymail', 'dailymail', 'dailymailonline', 'espn']
+
+    # open blacklist
+    with open('blacklist.txt', 'r') as f:
+        data = f.readlines()
+    blacklist = [item.strip('\n') for item in data]
 
     # Get request
     try:
@@ -38,9 +41,9 @@ def scrape():
                    for source in html_sources]))
     # checks if something exists
     if links and sources:
-        print("Success, Filtering Data")
+        print("Successfully scraped site, Filtering Data")
     else:
-        print("Failed")
+        print("Failed to scrape")
         return
 
     # Filters the list and source dict based on the blacklist
