@@ -26,34 +26,37 @@ def insert_data(connection):
     except include.sql.Error as err:
         print(err)
 
-    for item in zipper:
-        if item[1] in current_sources.keys():
-            final_string = (item[0], current_sources[item[1]], DATE)
-            cursor.execute("SELECT site FROM news WHERE site = ?", (item[0],))
-            check = cursor.fetchall()
-            if len(check) == 0:
-                try:
-                    cursor.execute(
-                        "INSERT INTO news (site, source_id, datetime) VALUES (?, ?, ?)", final_string)
-                    print(f'Inserted: {item[0], current_sources[item[1]]}')
-                except include.sql.Error as err:
-                    print(err)
-            else:
-                print('Headline already in DB')
-
     for item in current_sources:
         final_string = (current_sources[item], item)
-        cursor.execute("SELECT source FROM sources WHERE source = ? OR id = ?",
+        cursor.execute("SELECT source FROM sources WHERE source = ? OR id = ?;",
                        (item, current_sources[item]))
         check = cursor.fetchall()
         if len(check) == 0:
             try:
                 cursor.execute(
-                    "INSERT INTO sources (id, source) VALUES (?, ?)", final_string)
+                    "INSERT INTO sources (id, source) VALUES (?, ?);", final_string)
                 print(f'Inserted: {item}')
             except include.sql.Error as err:
                 print(err)
         else:
             print('Source already in DB')
+
+    cursor.execute("SELECT source, id FROM sources;")
+    get_all_sources = dict(cursor.fetchall())
+
+    for item in zipper:
+        if item[1] in get_all_sources.keys():
+            final_string = (item[0], get_all_sources[item[1]], DATE)
+            cursor.execute("SELECT site FROM news WHERE site = ?;", (item[0],))
+            check = cursor.fetchall()
+            if len(check) == 0:
+                try:
+                    cursor.execute(
+                        "INSERT INTO news (site, source_id, datetime) VALUES (?, ?, ?);", final_string)
+                    print(f'Inserted: {item[0], get_all_sources[item[1]]}')
+                except include.sql.Error as err:
+                    print(err)
+            else:
+                print('Headline already in DB')
 
     connection.commit()
