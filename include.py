@@ -1,3 +1,5 @@
+# This file is just to import everything into every file easily (and my notes)
+
 from datetime import datetime as dt
 from bs4 import BeautifulSoup as bs
 import json
