@@ -1,11 +1,10 @@
-import json
+from datetime import datetime as dt
 from bs4 import BeautifulSoup as bs
+import json
 import sqlite3 as sql
 import django as dj
 import requests as rq
-import pandas as pd
 import scraper as sc
-from datetime import datetime as dt
 import helpers as help
 import database as db
 '''
