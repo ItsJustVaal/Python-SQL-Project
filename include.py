@@ -13,8 +13,11 @@ notes for next time:
 make a new branch to work on then merge it in after to main
 
 TODO in order:
-database.py (delete)
-webapp.py
-news command
 
+news command:
+    this will use javascript to query the db and
+    format the output in a discord embed for the bot
+
+webapp.py:
+    this is just for my django practice
 '''

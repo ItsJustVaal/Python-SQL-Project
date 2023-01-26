@@ -4,20 +4,14 @@ DATE = include.dt.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
 def insert_data(connection):
-    # This needs to be rewritten to work lol
+    # Get zipped list of tuples from scrape
     zipper = include.sc.scrape()
-    with open("JSONs/links.JSON") as f:
-        current_links = include.json.load(f).split('", "')
 
-    final_links = []
-    for x in current_links:
-        final_links.append(x.replace(u"\\u2018", "'").replace(
-            u"\\u2019", "'").replace(u"\\u00a3", '£').replace(
-            u"\\u2013", '-').replace(u"\\u201d", "'").replace(u"\\u201c", "'"))
-
+    # Get dictionary of sources and their id key
     with open("JSONs/sources.JSON") as f:
         current_sources = include.json.load(f)
 
+    # Create cursor and initiates tables if they dont exist
     cursor = connection.cursor()
     try:
         cursor.execute(
@@ -41,7 +35,7 @@ def insert_data(connection):
                 try:
                     cursor.execute(
                         "INSERT INTO news (site, source_id, datetime) VALUES (?, ?, ?)", final_string)
-                    print(f'Inserted: {item[0]}')
+                    print(f'Inserted: {item[0], current_sources[item[1]]}')
                 except include.sql.Error as err:
                     print(err)
             else:
@@ -49,7 +43,8 @@ def insert_data(connection):
 
     for item in current_sources:
         final_string = (current_sources[item], item)
-        cursor.execute("SELECT source FROM sources WHERE source = ?", (item,))
+        cursor.execute("SELECT source FROM sources WHERE source = ? OR id = ?",
+                       (item, current_sources[item]))
         check = cursor.fetchall()
         if len(check) == 0:
             try:
@@ -62,5 +57,3 @@ def insert_data(connection):
             print('Source already in DB')
 
     connection.commit()
-
-# include.help.get_all()
