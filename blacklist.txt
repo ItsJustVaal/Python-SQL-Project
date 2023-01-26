@@ -4,3 +4,5 @@ thedailymail
 dailymail
 dailymailonline
 espn
+marca
+mundodeportivo
