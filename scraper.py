@@ -60,7 +60,7 @@ def scrape():
             continue
 
     # Creates JSON of sources
-    print("Saving JSON")
+    print("Saving JSON back up of sources mapping")
     with open('jsons/sources.json', 'w') as file:
         include.json.dump(sources_dict, file)
 
