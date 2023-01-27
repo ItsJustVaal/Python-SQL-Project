@@ -1,3 +1,7 @@
+// This is a command for the live discord futbol bot
+// It doesn't run in this project but this prototype
+// was made after the backend python / sql was done
+
 module.exports = {
   name: "news",
   execute(message) {
