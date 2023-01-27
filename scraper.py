@@ -14,6 +14,7 @@ def scrape():
     blacklist = [item.strip('\n') for item in data]
     if not blacklist:
         print("Failed to pull blacklist")
+        return
 
     # Get request
     try:
