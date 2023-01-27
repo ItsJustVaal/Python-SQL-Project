@@ -9,6 +9,10 @@ import requests as rq
 import scraper as sc
 import helpers as help
 import database as db
+import os
+
+path = "C:\Temp\Code\Learn\Practice\Scraper"
+os.chdir(path)
 '''
 
 TODO in order:

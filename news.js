@@ -1,7 +1,3 @@
-// created the module to read from the db
-// and send an embed back with their query
-// this is used in the football discord bot
-
 module.exports = {
   name: "news",
   execute(message) {
@@ -9,14 +5,23 @@ module.exports = {
     let db = new sql.Database("C:/Temp/Code/Learn/Practice/Scraper/data.db");
     const fs = require("fs");
     const { EmbedBuilder } = require("discord.js");
-
+    if (message.author.id === "288791370506829824") {
+      message.reply("Imagine talking to a bot <:pepeLoser:833719194641236068>");
+      return;
+    }
     let input;
     let mainStuff = message.content.split(" ");
     switch (mainStuff[1]) {
+      case undefined:
+      case "":
+      case " ":
+        input = "";
+        break;
       case "manu":
       case "ManU":
       case "ManUnited":
         input = "manchester united";
+        break;
       case "shit":
       case "spuds":
         input = "spurs";
@@ -30,7 +35,7 @@ module.exports = {
         input = "arsenal";
         break;
       case "gzon":
-        message.reply("Hi Gzon :D");
+        message.reply("Hi Gzon :D <:FeelsFistBumpMan:629852078734311424>");
         return;
       default:
         input = mainStuff[1].toLowerCase();
@@ -76,7 +81,9 @@ module.exports = {
       let final = [];
       results.forEach((element) => {
         finalString = [
-          `${element.site.charAt(0).toUpperCase() + element.site.slice(1)}`,
+          `${element.site.charAt(0).toUpperCase() + element.site.slice(1)} -- ${
+            element.source.charAt(0).toUpperCase() + element.source.slice(1)
+          }`,
         ];
         final.push(finalString);
       });

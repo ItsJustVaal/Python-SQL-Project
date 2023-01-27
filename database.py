@@ -21,11 +21,12 @@ def insert_data(connection):
         print(err)
     try:
         cursor.execute(
-            "CREATE TABLE IF NOT EXISTS sources (id INT NOT NULL, source TEXT NOT NULL, FOREIGN KEY(id) REFERENCES news (source_id));")
+            "CREATE TABLE sources (id INT NOT NULL, source TEXT NOT NULL, FOREIGN KEY(id) REFERENCES news (source_id));")
         print("Table Created: sources")
     except include.sql.Error as err:
         print(err)
 
+    new_sources = 0
     for item in current_sources:
         final_string = (current_sources[item], item)
         cursor.execute("SELECT source FROM sources WHERE source = ? OR id = ?;",
@@ -35,28 +36,38 @@ def insert_data(connection):
             try:
                 cursor.execute(
                     "INSERT INTO sources (id, source) VALUES (?, ?);", final_string)
-                print(f'Inserted: {item}')
+                new_sources = new_sources + 1
             except include.sql.Error as err:
                 print(err)
-        else:
-            print('Source already in DB')
+    else:
+        print('No New Sources')
 
     cursor.execute("SELECT source, id FROM sources;")
     get_all_sources = dict(cursor.fetchall())
-
+    new_headlines = 0
+    
     for item in zipper:
         if item[1] in get_all_sources.keys():
             final_string = (item[0], get_all_sources[item[1]], DATE)
             cursor.execute("SELECT site FROM news WHERE site = ?;", (item[0],))
             check = cursor.fetchall()
+            
             if len(check) == 0:
                 try:
                     cursor.execute(
                         "INSERT INTO news (site, source_id, datetime) VALUES (?, ?, ?);", final_string)
-                    print(f'Inserted: {item[0], get_all_sources[item[1]]}')
+                    new_headlines = new_headlines + 1
                 except include.sql.Error as err:
                     print(err)
-            else:
-                print('Headline already in DB')
-
     connection.commit()
+
+    if new_headlines == 0:
+        print("No New Headlines")
+    if new_sources == 0:
+        print("No New Headlines")
+        return
+
+    print(f'New Headlines: {new_headlines}')
+    print(f'New Sources: {new_sources}')
+
+    

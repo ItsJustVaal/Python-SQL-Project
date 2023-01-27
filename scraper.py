@@ -1,5 +1,4 @@
 import include
-
 '''
 Scrapes the site https://www.footballnews.net/ legally
 legally to obtain football news headlines
@@ -10,9 +9,11 @@ URL = 'https://www.footballnews.net/'
 def scrape():
 
     # open blacklist
-    with open('blacklist.txt', 'r') as f:
+    with open('C:\Temp\Code\Learn\Practice\Scraper\\blacklist.txt', 'r') as f:
         data = f.readlines()
     blacklist = [item.strip('\n') for item in data]
+    if not blacklist:
+        print("Failed to pull blacklist")
 
     # Get request
     try:
