@@ -13,14 +13,5 @@ import os
 
 path = "C:\Temp\Code\Learn\Practice\Scraper"
 os.chdir(path)
-'''
 
-TODO in order:
 
-news command:
-    this will use javascript to query the db and
-    format the output in a discord embed for the bot
-
-webapp.py:
-    this is just for my django practice
-'''

@@ -2,7 +2,9 @@ module.exports = {
   name: "news",
   execute(message) {
     const sql = require("sqlite3").verbose();
-    let db = new sql.Database("C:/Temp/Code/Learn/Practice/Scraper/data.db");
+    const path = os.getenv("PATH");
+    let db = new sql.Database({ path } + "/data/db");
+    print(path);
     const fs = require("fs");
     const { EmbedBuilder } = require("discord.js");
     if (message.author.id === "288791370506829824") {

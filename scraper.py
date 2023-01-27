@@ -9,7 +9,7 @@ URL = 'https://www.footballnews.net/'
 def scrape():
 
     # open blacklist
-    with open('C:\Temp\Code\Learn\Practice\Scraper\\blacklist.txt', 'r') as f:
+    with open('blacklist.txt', 'r') as f:
         data = f.readlines()
     blacklist = [item.strip('\n') for item in data]
     if not blacklist:

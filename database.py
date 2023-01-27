@@ -2,8 +2,8 @@ import include
 
 DATE = include.dt.now().strftime("%Y-%m-%d %H:%M:%S")
 
-
 def insert_data(connection):
+    
     # Get zipped list of tuples from scrape
     zipper = include.sc.scrape()
 
@@ -33,41 +33,32 @@ def insert_data(connection):
                        (item, current_sources[item]))
         check = cursor.fetchall()
         if len(check) == 0:
+            new_sources = new_sources + 1
             try:
                 cursor.execute(
                     "INSERT INTO sources (id, source) VALUES (?, ?);", final_string)
-                new_sources = new_sources + 1
             except include.sql.Error as err:
                 print(err)
-    else:
-        print('No New Sources')
+
 
     cursor.execute("SELECT source, id FROM sources;")
     get_all_sources = dict(cursor.fetchall())
-    new_headlines = 0
     
+    new_headlines = 0
     for item in zipper:
         if item[1] in get_all_sources.keys():
             final_string = (item[0], get_all_sources[item[1]], DATE)
             cursor.execute("SELECT site FROM news WHERE site = ?;", (item[0],))
             check = cursor.fetchall()
-            
             if len(check) == 0:
+                new_headlines = new_headlines + 1
                 try:
                     cursor.execute(
                         "INSERT INTO news (site, source_id, datetime) VALUES (?, ?, ?);", final_string)
-                    new_headlines = new_headlines + 1
                 except include.sql.Error as err:
                     print(err)
     connection.commit()
 
-    if new_headlines == 0:
-        print("No New Headlines")
-    if new_sources == 0:
-        print("No New Headlines")
-        return
-
-    print(f'New Headlines: {new_headlines}')
-    print(f'New Sources: {new_sources}')
-
-    
+    print(f"{new_sources} sources added")
+    print(f"{new_headlines} headlines added")
+    print("Complete")
