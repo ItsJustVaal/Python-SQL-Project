@@ -1,6 +1,6 @@
 import include
 '''
-Scrapes the site https://www.footballnews.net/ legally
+Scrapes the site https://www.footballnews.net/
 legally to obtain football news headlines
 '''
 URL = 'https://www.footballnews.net/'
